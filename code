@@ -1,0 +1,53 @@
+int pirsensor = 0;   //PIR
+int trigger=12;		//ultrasonic pink wire
+int led=8;
+int echo=11;	   //ultrasonic orange wire
+long duration=0;  //ultrasonic
+int cm=0;
+int inch=0;
+
+void setup()
+{
+  pinMode(13, OUTPUT); //PIR
+  pinMode(2,INPUT);	   //PIR
+  pinMode(trigger,OUTPUT); //ultrasonic
+  pinMode(echo,INPUT);
+  pinMode(led,OUTPUT);
+}
+
+void loop()
+{
+  pirsensor= digitalRead(2); //PIR
+  digitalWrite(trigger,LOW); //ULTRASONIC
+  digitalWrite(trigger,HIGH);
+  digitalWrite(trigger,LOW);
+  
+  duration = pulseIn(echo,HIGH);
+  cm = duration*0.030/2;
+  inch = duration*0.0133/2;
+  
+  if (pirsensor == HIGH) //UNTUK PIR AWALAN
+  {
+    digitalWrite(13,HIGH);
+  } else
+  {
+    digitalWrite(13,LOW);
+  }
+  delay(10); // UNTUK PIR AKHIRAN
+  
+  if(inch < 50)//AWALAN ULTRASONIC
+  {
+    digitalWrite(led,HIGH);
+  }
+  else{
+    digitalWrite(led,LOW);
+  }
+  
+  if(inch<30){
+    Serial.print("Inch: ");
+      Serial.println(inch);
+    Serial.print("CM: ");
+      Serial.println(cm);
+  }
+  delay(500);//AKHIRAN ULTRASONIC    
+  }
